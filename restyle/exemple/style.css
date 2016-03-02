@@ -1,10 +1,10 @@
 
 QFrame#center_frame {
-    background-color: #535353;
+    background-color: red;
 }
 
 QFrame#manager_window {
-    background-color: #b6b6b6;
+    background-color: red;
     /*border-left: 1px solid gray;*/
     margin-left: 90px;
     margin-top: 10px;
@@ -16,12 +16,12 @@ QFrame#manager_window {
 }
 
 QFrame#display {
-    background-color: #B6B6B6;
+    background-color: red;
     margin-right: auto;
 }
 
 QFrame#tool_game {
-    background-color: gray;
+    background-color: red;
     /*border-image: url(./resources/icons/texture/game.png);*/
     background-position: center;
     border-right: 1px solid gray;
@@ -30,14 +30,14 @@ QFrame#tool_game {
     border-left: 1px solid gray;
     border-top-left-radius: 18px;
     border-bottom-left-radius: 18px;
-    /*margin-left: 20px;*/
+    /* AAAmargin-left: 20px;*/
     margin-right: auto;
 
 
 }
 
 QFrame#setting_box {
-    background-color: lightgray;
+    background-color: red;
     border-top: 1px solid #adadad;
     border-right: 1px solid #adadad;
     border-left: 1px solid #adadad;

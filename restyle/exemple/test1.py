@@ -29,13 +29,9 @@ class Parser:
 
     def properties(self):
         pat = re.compile(r'''
-             #\{
-             #.+?
-             (\w+\-?\w*?){0,3}\:
-             #.+?
-             #\}
+                     (?<!\*)\s+([-\w]*?)\:\s+.+?\;
                         ''', re.DOTALL | re.VERBOSE)
-        return list(set(pat.findall(self.css_str)))
+        return list(set((pat.findall(self.css_str))))
 
 if __name__ == '__main__':
     p = Parser('style.css')

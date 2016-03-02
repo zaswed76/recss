@@ -45,20 +45,37 @@ class StyleFile:
         with open(self.file, "w") as f:
             f.write(new_style)
 
+class Parser:
+    def __init__(self, file_name):
+        self.file = StyleFile(file_name)
+        self.css_str = self.file.style
 
+    def selectors(self):
+        pat = re.compile(r'\n+(\w+).*?(?=\{)', re.DOTALL)
+        return sorted(set(pat.findall(self.css_str)))
+
+    def properties(self):
+        pat = re.compile(r'''
+                     (?<!\*)\s+([-\w]*?)\:\s+.+?\;
+                        ''', re.DOTALL | re.VERBOSE)
+        return sorted(set((pat.findall(self.css_str))))
 
 class TestForm(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super().__init__()
+        self.parser = Parser(file_name())
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.ui.pushButton_1.clicked.connect(self.do_replace)
         self.style_file = StyleFile(file_name())
-        print(self.style_file.style)
+
+
+        self.ui.LineEdit_1.addItems(self.parser.selectors())
+        self.ui.LineEdit_3.addItems(self.parser.properties())
 
     def do_replace(self):
-        selector = self.ui.LineEdit_1.text()
-        property = self.ui.LineEdit_3.text()
+        selector = self.ui.LineEdit_1.currentText()
+        property = self.ui.LineEdit_3.currentText()
         value = self.ui.LineEdit_4.text()
 
         pat = regular_expression(selector, property)
