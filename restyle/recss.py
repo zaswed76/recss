@@ -3,23 +3,11 @@
 
 import re
 import sys
+
 from PyQt5 import QtWidgets
+
 from form import Ui_Form
 
-
-def regular_expression(selector, property):
-    pat = re.compile(r'''
-        ({selector}
-        .+?
-        (?<={property}\:))
-        .+?
-        (\w+)
-         '''.format(selector=selector, property=property),
-    re.VERBOSE | re.DOTALL | re.IGNORECASE)
-    return pat
-
-def restyle(source, regular_expression, replacement):
-    return regular_expression.sub(r'\1 {}'.format(replacement), source)
 
 def file_name():
     try:
@@ -27,7 +15,13 @@ def file_name():
     except IndexError:
         print("первым аргументом должно быть имя файла")
         sys.exit()
-    else: return name
+    else:
+        if name[-3:] == 'css':
+            return name
+        else:
+            print("это не css файл")
+            sys.exit()
+
 
 class StyleFile:
     def __init__(self, file):
@@ -45,13 +39,30 @@ class StyleFile:
         with open(self.file, "w") as f:
             f.write(new_style)
 
+
 class Parser:
     def __init__(self, file_name):
         self.file = StyleFile(file_name)
+        # исходная строка
         self.css_str = self.file.style
 
+    def new_css_value(self, selector, property, replacement):
+        """
+        :return: изменённая строка
+        """
+        pat = re.compile(r'''
+            ({selector}
+            .+?
+            \s+
+            (?<={property}\:))
+            .+?
+            (\w+)
+             '''.format(selector=selector, property=property),
+                         re.VERBOSE | re.DOTALL | re.IGNORECASE)
+        return pat.sub(r'\1 {}'.format(replacement), self.css_str)
+
     def selectors(self):
-        pat = re.compile(r'\n+(\w+).*?(?=\{)', re.DOTALL)
+        pat = re.compile(r'(\w+).*?\s+(?=\{).*?\}', re.DOTALL)
         return sorted(set(pat.findall(self.css_str)))
 
     def properties(self):
@@ -59,6 +70,7 @@ class Parser:
                      (?<!\*)\s+([-\w]*?)\:\s+.+?\;
                         ''', re.DOTALL | re.VERBOSE)
         return sorted(set((pat.findall(self.css_str))))
+
 
 class TestForm(QtWidgets.QDialog):
     def __init__(self, parent=None):
@@ -69,7 +81,6 @@ class TestForm(QtWidgets.QDialog):
         self.ui.pushButton_1.clicked.connect(self.do_replace)
         self.style_file = StyleFile(file_name())
 
-
         self.ui.LineEdit_1.addItems(self.parser.selectors())
         self.ui.LineEdit_3.addItems(self.parser.properties())
 
@@ -77,11 +88,16 @@ class TestForm(QtWidgets.QDialog):
         selector = self.ui.LineEdit_1.currentText()
         property = self.ui.LineEdit_3.currentText()
         value = self.ui.LineEdit_4.text()
+        if not all([value, property, property]):
+            print('css файл не изменён')
+            sys.exit()
 
-        pat = regular_expression(selector, property)
-        new_style = restyle(self.style_file.style, pat, value)
+        new_style = self.parser.new_css_value(selector, property,
+                                              value)
+        # записать в файл
         self.style_file.style = new_style
         sys.exit()
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
