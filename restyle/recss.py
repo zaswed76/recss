@@ -35,7 +35,6 @@ class StyleFile:
 
     @style.setter
     def style(self, new_style):
-        print(new_style)
         with open(self.file, "w") as f:
             f.write(new_style)
 
@@ -50,16 +49,17 @@ class Parser:
         """
         :return: изменённая строка
         """
+        print(replacement)
         pat = re.compile(r'''
-            ({selector}
+            (.+?{selector}
             .+?
             \s+
-            (?<={property}\:))
+            ({property}\:))
             .+?
-            (\w+)
+            (\w+)\;
              '''.format(selector=selector, property=property),
                          re.VERBOSE | re.DOTALL | re.IGNORECASE)
-        return pat.sub(r'\1 {}'.format(replacement), self.css_str)
+        return pat.sub(r'\1 {};'.format(replacement), self.css_str)
 
     def selectors(self):
         pat = re.compile(r'(\w+).*?\s+(?=\{).*?\}', re.DOTALL)
