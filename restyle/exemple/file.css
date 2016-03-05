@@ -22,3 +22,11 @@ QFrame#center_frame {
 QLabel {
     bbb: AAAAAAAA;
 }
+
+
+QFrame#center_frame {
+    aaa: xxx;
+}
+QLabel {
+    bbb: AAAAAAAA;
+}

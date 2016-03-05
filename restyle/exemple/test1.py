@@ -3,7 +3,7 @@
 
 
 import re
-f = '/home/sergk/project/recss/restyle/exemple/style.css'
+f = '/home/vostro/project/recss/restyle/exemple/read_style.css'
 with open(f, "r") as f:
     s = f.readlines()
 
@@ -27,3 +27,7 @@ with open("file.css", "a") as fs:
         print(i)
         fs.writelines(i)
 
+
+class Parser:
+    def __init__(self, file):
+        self.file = file
