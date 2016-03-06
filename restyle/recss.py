@@ -99,10 +99,17 @@ class TestForm(QtWidgets.QDialog):
         self.ui.LineEdit_3.addItems(sorted(properties.keys()))
 
     def do_replace(self):
+        new_css_lst = []
         selector = self.ui.LineEdit_1.currentText()
         property = self.ui.LineEdit_3.currentText()
         value = self.ui.LineEdit_4.text()
-
+        for s in self.parser.selectors_split_lst:
+            new = self.parser.new_css_value(selector, property, value, s)
+            print(new)
+            new_css_lst.append(new)
+        new_css_str = ''.join(new_css_lst)
+        self.parser.file_obj.write_style_to_file(new_css_str)
+        sys.exit()
 
 
 

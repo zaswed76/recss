@@ -1,9 +1,23 @@
-.bmenu{
-    padding: 0px;
-    margin: 0 0 10px 0;
-    position: relative;
+body {
+  background-color: #292548;
 }
-.bmenu li{
-    font-size: 50px;
-    display: block;
+
+.flask {
+  height: 405px;
+  width: 368px;
+  position: no;
+  bottom: 999;
+}
+
+.flask_bottom {
+  bottom: 999;
+  position: no;
+}
+
+.big_triangle {
+  overflow: hidden;
+  position: relative;
+  width: 368px;
+  height: 250px;
+  background-color: #fff;
 }

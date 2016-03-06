@@ -96,6 +96,19 @@ class Parser:
                     selectors[sel] = properties
         return selectors
 
+    def new_css_value(self, selector, property, replacement, s):
+        """
+        :return: изменённая строка
+        """
+        pat = re.compile(r'''
+            (.+?{selector}.+?
+            \s+({property}\:))
+            .+?
+            (\w+)\;
+             '''.format(selector=selector, property=property),
+                         re.VERBOSE | re.DOTALL | re.IGNORECASE)
+        return pat.sub(r'\1 {};'.format(replacement), s)
+
     def __str__(self):
         return str(self.selectors_split_lst)
 
