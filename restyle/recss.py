@@ -7,7 +7,7 @@ import sys
 from PyQt5 import QtWidgets
 
 from form import Ui_Form
-from restyle.exemple import parser
+import parser
 
 
 def file_name():
@@ -104,7 +104,9 @@ class TestForm(QtWidgets.QDialog):
         property = self.ui.LineEdit_3.currentText()
         value = self.ui.LineEdit_4.text()
         for s in self.parser.selectors_split_lst:
+            print(s)
             new = self.parser.new_css_value(selector, property, value, s)
+            print("-----------------")
             print(new)
             new_css_lst.append(new)
         new_css_str = ''.join(new_css_lst)
@@ -117,4 +119,4 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     myapp = TestForm()
     myapp.show()
-    sys.exit(app.exec_())
+    app.exec()

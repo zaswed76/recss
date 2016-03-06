@@ -14,15 +14,15 @@ QFrame {
 
 
 QLabel {
-    border-color: black;
+    border-color: green;
     /*xxxxx: XXX;*/
-    color: grey;
+    color: red;
     border: 1px;
 }
 
 QLabel:hover {
-    border-color: black;
+    border-color: green;
     /*xxxxx: XXX;*/
-    color: grey;  /* xxxx: green; */
+    color: red;  /* xxxx: green; */
     border-radius: 1px;
 }
