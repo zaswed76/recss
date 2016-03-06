@@ -2,32 +2,17 @@
 # -*- coding: utf-8 -*-
 
 
-import re
-f = '/home/vostro/project/recss/restyle/exemple/read_style.css'
-with open(f, "r") as f:
-    s = f.readlines()
+k=[1700,9000,1500,1700,2500]
+b=[240,300,180,170,250]
+k1=[1100, 9000, 1500,1800,2500]
+b1=[240,300,180,190,250]
 
-def f():
-    glob_lst = []
-    local = []
+def calculate_indexes(seq1, seq2):
+    return [n for n, (x, y) in enumerate(zip(seq1, seq2)) if x != y]
 
-    for i in s:
-        if not '}' in i:
-            local.append(i)
-        else:
-            local.append(i)
-            glob_lst.append(local[:])
-            local.clear()
-
-    return glob_lst
+print(calculate_indexes(k, k1))
+print(calculate_indexes(b, b1))
 
 
-with open("file.css", "a") as fs:
-    for i in f():
-        print(i)
-        fs.writelines(i)
 
 
-class Parser:
-    def __init__(self, file):
-        self.file = file

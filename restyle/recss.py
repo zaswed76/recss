@@ -7,6 +7,7 @@ import sys
 from PyQt5 import QtWidgets
 
 from form import Ui_Form
+from restyle.exemple import parser
 
 
 def file_name():
@@ -75,28 +76,34 @@ class Parser:
 class TestForm(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super().__init__()
-        self.parser = Parser(file_name())
+        self.parser = parser.Parser(file_name())
+        self.parser.split_on_selectors()
+        self.parser_dict = self.parser.parser_dict()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.ui.pushButton_1.clicked.connect(self.do_replace)
+        self.ui.LineEdit_1.currentIndexChanged.connect(self.add_properties)
         self.style_file = StyleFile(file_name())
 
-        self.ui.LineEdit_1.addItems(self.parser.selectors())
-        self.ui.LineEdit_3.addItems(self.parser.properties())
+        self.add_selectors()
+        # self.ui.LineEdit_1.addItems(self.parser.selectors())
+        # self.ui.LineEdit_3.addItems(self.parser.properties())
+
+    def add_selectors(self):
+        self.selectors = sorted(self.parser_dict.keys())
+        self.ui.LineEdit_1.addItems(self.selectors)
+
+    def add_properties(self, i):
+        self.ui.LineEdit_3.clear()
+        properties = self.parser_dict[self.selectors[i]]
+        self.ui.LineEdit_3.addItems(sorted(properties.keys()))
 
     def do_replace(self):
         selector = self.ui.LineEdit_1.currentText()
         property = self.ui.LineEdit_3.currentText()
         value = self.ui.LineEdit_4.text()
-        if not all([value, property, property]):
-            print('css файл не изменён')
-            sys.exit()
 
-        new_style = self.parser.new_css_value(selector, property,
-                                              value)
-        # записать в файл
-        self.style_file.style = new_style
-        sys.exit()
+
 
 
 if __name__ == "__main__":

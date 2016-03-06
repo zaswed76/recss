@@ -1,8 +1,28 @@
 
 
 QFrame#center_frame {
-    aaa: xxx;
+    color: red;
+    border-color: black;
 }
+
+QFrame {
+    background: red;
+}
+
+/*комент*/
+/*комент*/
+
+
 QLabel {
-    bbb: AAAAAAAA;
+    border-color: black;
+    /*xxxxx: XXX;*/
+    color: grey;
+    border: 1px;
+}
+
+QLabel:hover {
+    border-color: black;
+    /*xxxxx: XXX;*/
+    color: grey;  /* xxxx: green; */
+    border-radius: 1px;
 }
